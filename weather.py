@@ -3,14 +3,19 @@
 # It uses OpenWeatherMap API to display weather info
 import sys
 import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
 icondir = os.path.join(picdir, 'icon')
 fontdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
 
 # Search lib folder for display driver modules
 sys.path.append('lib')
-from waveshare_epd import epd7in5_V2
-epd = epd7in5_V2.EPD()
+from waveshare_epd import epd7in3g
+epd = epd7in3g.EPD()
 
 from datetime import datetime
 import time
@@ -76,12 +81,12 @@ print('Initializing and clearing screen.')
 epd.init()
 epd.Clear()
 
-API_KEY = '******API KEY*******'
-LOCATION = '*******'
-LATITUDE = '*******'
-LONGITUDE = '*******'
-UNITS = 'imperial'
-CSV_OPTION = True # if csv_option == True, a weather data will be appended to 'record.csv'
+API_KEY = os.getenv(API_KEY)
+LOCATION = os.getenv(LOCATION)
+LATITUDE = os.getenv(LATITUDE)
+LONGITUDE = os.getenv(LONGITUDE)
+UNITS = os.getenv(UNITS)
+CSV_OPTION = os.getenv(CSV_OPTION) # if csv_option == True, a weather data will be appended to 'record.csv'
 
 BASE_URL = 'http://api.openweathermap.org/data/2.5/onecall?' 
 URL = BASE_URL + 'lat=' + LATITUDE + '&lon=' + LONGITUDE + '&units=' + UNITS +'&appid=' + API_KEY
