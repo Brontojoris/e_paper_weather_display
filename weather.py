@@ -1,12 +1,8 @@
-# This little program is for the Waveshare 7.5
-# inch Version 2 black and white only epaper display
+# This little program is for the Waveshare 7.3
+# inch 4 colour epaper display
 # It uses OpenWeatherMap API to display weather info
 import sys
 import os
-
-from dotenv import load_dotenv
-
-load_dotenv()
 
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
 icondir = os.path.join(picdir, 'icon')
@@ -25,6 +21,9 @@ import traceback
 import requests, json
 from io import BytesIO
 import csv
+
+from dotenv import load_dotenv
+load_dotenv()
 
 # define funciton for writing image and sleeping for 5 min.
 def write_to_screen(image, sleep_seconds):
@@ -60,7 +59,7 @@ def display_error(error_source):
     error_image.save(os.path.join(picdir, error_image_file))
     # Close error image
     error_image.close()
-    # Write error to screen 
+    # Write error to screen
     write_to_screen(error_image_file, 30)
 
 # Set the fonts
@@ -81,14 +80,14 @@ print('Initializing and clearing screen.')
 epd.init()
 epd.Clear()
 
-API_KEY = os.getenv(API_KEY)
-LOCATION = os.getenv(LOCATION)
-LATITUDE = os.getenv(LATITUDE)
-LONGITUDE = os.getenv(LONGITUDE)
-UNITS = os.getenv(UNITS)
-CSV_OPTION = os.getenv(CSV_OPTION) # if csv_option == True, a weather data will be appended to 'record.csv'
+API_KEY = os.getenv('API_KEY')
+LOCATION = os.getenv('LOCATION')
+LATITUDE = os.getenv('LATITUDE')
+LONGITUDE = os.getenv('LONGITUDE')
+UNITS = os.getenv('UNITS')
+CSV_OPTION = os.getenv('CSV_OPTION') # if csv_option == True, a weather data will be appended to 'record.csv'
 
-BASE_URL = 'http://api.openweathermap.org/data/2.5/onecall?' 
+BASE_URL = 'http://api.openweathermap.org/data/2.5/onecall?'
 URL = BASE_URL + 'lat=' + LATITUDE + '&lon=' + LONGITUDE + '&units=' + UNITS +'&appid=' + API_KEY
 
 while True:
@@ -104,8 +103,8 @@ while True:
         except:
             # Call function to display connection error
             print('Connection error.')
-            display_error('CONNECTION') 
-    
+            display_error('CONNECTION')
+
     error = None
     while error == None:
         # Check status of code request
@@ -113,7 +112,7 @@ while True:
             print('Connection to Open Weather successful.')
             # get data in jason format
             data = response.json()
-            
+
             # get current dict block
             current = data['current']
             # get current
@@ -130,7 +129,7 @@ while True:
             # get icon url
             icon_code = weather[0]['icon']
             #icon_URL = 'http://openweathermap.org/img/wn/'+ icon_code +'@4x.png'
-            
+
             # get daily dict block
             daily = data['daily']
             # get daily precip
@@ -141,7 +140,7 @@ while True:
             daily_temp = daily[0]['temp']
             temp_max = daily_temp['max']
             temp_min = daily_temp['min']
-            
+
             # Append weather data to CSV if csv_option == True
             if CSV_OPTION == True:
                 # Get current year, month, date, and time
@@ -156,7 +155,7 @@ while True:
                                      LOCATION,temp_current, feels_like, temp_max, temp_min,
                                      humidity, daily_precip_float, wind])
                 print('Weather data appended to CSV.')
-            
+
             # Set strings to be printed to screen
             string_location = LOCATION
             string_temp_current = format(temp_current, '.0f') + u'\N{DEGREE SIGN}F'
@@ -167,22 +166,22 @@ while True:
             string_temp_max = 'High: ' + format(temp_max, '>.0f') + u'\N{DEGREE SIGN}F'
             string_temp_min = 'Low:  ' + format(temp_min, '>.0f') + u'\N{DEGREE SIGN}F'
             string_precip_percent = 'Precip: ' + str(format(daily_precip_percent, '.0f'))  + '%'
-            
+
             # Set error code to false
             error = False
-            
+
             '''
             print('Location:', LOCATION)
-            print('Temperature:', format(temp_current, '.0f'), u'\N{DEGREE SIGN}F') 
-            print('Feels Like:', format(feels_like, '.0f'), 'F') 
+            print('Temperature:', format(temp_current, '.0f'), u'\N{DEGREE SIGN}F')
+            print('Feels Like:', format(feels_like, '.0f'), 'F')
             print('Humidity:', humidity)
             print('Wind Speed:', format(wind_speed, '.1f'), 'MPH')
             print('Report:', report.title())
-            
+
             print('High:', format(temp_max, '.0f'), 'F')
             print('Low:', format(temp_min, '.0f'), 'F')
             print('Probabilty of Precipitation: ' + str(format(daily_precip_percent, '.0f'))  + '%')
-            '''    
+            '''
         else:
             # Call function to display HTTP error
             display_error('HTTP')
@@ -191,10 +190,10 @@ while True:
     template = Image.open(os.path.join(picdir, 'template.png'))
     # Initialize the drawing context with template as background
     draw = ImageDraw.Draw(template)
-    
+
     # Draw top left box
     ## Open icon file
-    icon_file = icon_code + '.png' 
+    icon_file = icon_code + '.png'
     icon_image = Image.open(os.path.join(icondir, icon_file))
     ### Paste the image
     template.paste(icon_image, (40, 15))
@@ -223,17 +222,17 @@ while True:
     if weekday == 0 or weekday == 3:
         draw.rectangle((345, 13, 705, 55), fill =black)
         draw.text((355, 15), 'TAKE OUT TRASH TODAY!', font=font30, fill=white)
-        
+
     # Save the image for display as PNG
     screen_output_file = os.path.join(picdir, 'screen_output.png')
     template.save(screen_output_file)
     # Close the template file
     template.close()
-    
+
     # Refresh clear screen to avoid burn-in at 3:00 AM
     if datetime.now().strftime('%H') == '03':
     	print('Clearning screen to avoid burn-in.')
     	epd.Clear()
-    
+
     # Write to screen
     write_to_screen(screen_output_file, 600)
