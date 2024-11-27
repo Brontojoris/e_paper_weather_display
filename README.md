@@ -1,4 +1,5 @@
 <h1>E-paper Weather Display</h1>
+<p>Original source from <a href="https://github.com/AbnormalDistributions/e_paper_weather_display/">github.com/AbnormalDistributions/e_paper_weather_display</a></p>
 <br>
   Raspberry Pi weather display using Waveshare e-paper 7.5 inch display, Open Weather Map API, and Python.
 <img src="/photos/photo2.jpg" width=40% height=40%>
