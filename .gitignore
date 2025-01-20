@@ -3,3 +3,4 @@ __pycache__/
 .DS_Store
 .env
 scratch.py
+weather_v1.py
