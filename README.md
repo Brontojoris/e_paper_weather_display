@@ -3,10 +3,31 @@
 <p>
   Raspberry Pi weather display using Waveshare e-paper 7.5 inch display, Open Weather Map API, and Python.</p>
 
-<img src="/photos/photo2.jpg" width=40% height=40%>
-<img src="/photos/photo1.jpg" width=40% height=40%> <br>
+<img src="./photos/photo2.jpg" width=40% height=40%>
+<img src="./photos/photo1.jpg" width=40% height=40%> <br>
+<img src="./photos/photo3.jpg" width=40% height=40%> <br>
 
 <p>If you like what you see, consider <a href="https://ko-fi.com/abnormaldistributions">buying James a coffee</a>.
+
+<h2>To Do</h2>
+
+<p>Update this codebase to incorporate <a href="https://github.com/AbnormalDistributions/e_paper_weather_display/releases/tag/2.0">version 2.0 improvements</a> from <a href="https://github.com/AbnormalDistributions/">AbnormalDistributions</a> including:</p>
+
+<ul>
+	<li><strong>Upgraded to OpenWeatherMap One Call API 3.0</strong>: This update now uses the latest version of the OpenWeatherMap API (3.0), which may require users to update their subscriptions if they were previously using version 2.5. See the <a href="https://openweathermap.org/one-call-transfer" rel="nofollow">OpenWeatherMap One Call Migration Guide</a> for details on the API changes and subscription requirements.</li>
+	<li><strong>Automatic Log Management</strong>: Logs now rotate when they get too large, making maintenance easier.</li>
+	<li><strong>User-Friendly Settings</strong>: All essential settings are grouped together for quick customization.</li>
+	<li><strong>More Reliable Error Handling</strong>: Logs network and API errors for easier troubleshooting.</li>
+	<li><strong>Improved Directory Handling</strong>: The script finds the right directories automatically, without manual path adjustments.</li>
+	<li><strong>Trash Day Reminders</strong>: Customize specific days to get reminders on the display.</li>
+</ul>
+<p>And...</p>
+<ul>
+	<li>Use my preferred template</li>
+	<li>Write the output bmp to disk for easier debugging</li>
+</ul>
+
+</hr>
 
 <h1>Versions</h1>
   <h2>Version 1.0</h2>
