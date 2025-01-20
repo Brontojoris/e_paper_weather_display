@@ -14,17 +14,20 @@
 <p>Update this codebase to incorporate <a href="https://github.com/AbnormalDistributions/e_paper_weather_display/releases/tag/2.0">version 2.0 improvements</a> from <a href="https://github.com/AbnormalDistributions/">AbnormalDistributions</a> including:</p>
 
 <ul>
-	<li><strong>Upgraded to OpenWeatherMap One Call API 3.0</strong>: This update now uses the latest version of the OpenWeatherMap API (3.0), which may require users to update their subscriptions if they were previously using version 2.5. See the <a href="https://openweathermap.org/one-call-transfer" rel="nofollow">OpenWeatherMap One Call Migration Guide</a> for details on the API changes and subscription requirements.</li>
-	<li><strong>Automatic Log Management</strong>: Logs now rotate when they get too large, making maintenance easier.</li>
-	<li><strong>User-Friendly Settings</strong>: All essential settings are grouped together for quick customization.</li>
-	<li><strong>More Reliable Error Handling</strong>: Logs network and API errors for easier troubleshooting.</li>
-	<li><strong>Improved Directory Handling</strong>: The script finds the right directories automatically, without manual path adjustments.</li>
+	<li><strong><strike>Upgraded to OpenWeatherMap One Call API 3.0</strong>: This update now uses the latest version of the OpenWeatherMap API (3.0), which may require users to update their subscriptions if they were previously using version 2.5. See the <a href="https://openweathermap.org/one-call-transfer" rel="nofollow">OpenWeatherMap One Call Migration Guide</a> for details on the API changes and subscription requirements.></strike></li>
+	<li><strong><strike>Automatic Log Management</strong>: Logs now rotate when they get too large, making maintenance easier.</strike></li>
+	<li><strong><strike>User-Friendly Settings</strong>: All essential settings are grouped together for quick customization.</strike></li>
+	<li><strong><strike>More Reliable Error Handling</strong>: Logs network and API errors for easier troubleshooting.</strike></li>
+	<li><strong><strike>Improved Directory Handling</strong>: The script finds the right directories automatically, without manual path adjustments.</strike></li>
 	<li><strong>Trash Day Reminders</strong>: Customize specific days to get reminders on the display.</li>
 </ul>
 <p>And...</p>
 <ul>
-	<li>Use my preferred template</li>
-	<li>Write the output bmp to disk for easier debugging</li>
+	<li><strike>Use my preferred template</strike></li>
+	<li><strike>Write the output bmp to disk for easier debugging</strike></li>
+	<li>Change output to use whole temp numbers (<code>floor(25.31)</code>)</li>
+	<li>Update output to display Internet speed</li>
+  <li>Update readme to use markdown</li>
 </ul>
 
 </hr>
@@ -71,6 +74,8 @@
       <li>Added .env file and loader</li>
       <li>Changed display to <a  href="https://www.waveshare.com/wiki/7.3inch_e-Paper_HAT_(G)_Manual">7.3inch 4 colour e-Paper HAT</a></li>
     </ul>
+  <h2>Version 2.1</h2>
+  <p>Incorporated changes from <a href="https://github.com/AbnormalDistributions/e_paper_weather_display/releases/tag/2.0">version 2.0 improvements</a> from <a href="https://github.com/AbnormalDistributions/">AbnormalDistributions</a>.
 
 
 <h1>Setup</h1>
