@@ -25,7 +25,7 @@
 <ul>
 	<li><strike>Use my preferred template</strike></li>
 	<li><strike>Write the output bmp to disk for easier debugging</strike></li>
-	<li>Change output to use whole temp numbers (<code>floor(25.31)</code>)</li>
+	<li><strike>Change output to use whole temp numbers (<code>floor(25.31)</code>)</strike></li>
 	<li>Update output to display Internet speed</li>
   <li>Update readme to use markdown</li>
 </ul>

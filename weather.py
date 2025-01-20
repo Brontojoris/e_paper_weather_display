@@ -5,6 +5,7 @@
 import sys
 import os
 import requests
+import math
 
 from dotenv import load_dotenv
 import csv
@@ -143,6 +144,10 @@ def generate_display_image(weather_data):
         if icon_image:
             template.paste(icon_image, (40, 15))
 
+        temp_current = math.floor(weather_data['temp_current'])
+        feels_like   = math.floor(weather_data['feels_like'])
+        temp_max     = math.floor(weather_data['temp_max'])
+        temp_min     = math.floor(weather_data['temp_min'])
         #draw.text((30, 200), f"Now: {weather_data['report']}", font=font22, fill=COLORS['black'])
         #draw.text((30, 240), f"Precip: {weather_data['precip_percent']:.0f}%", font=font30, fill=COLORS['black'])
         #draw.text((375, 35), f"{weather_data['temp_current']:.0f}°F", font=font160, fill=COLORS['black'])
@@ -151,11 +156,11 @@ def generate_display_image(weather_data):
         #draw.text((35, 390), f"Low: {weather_data['temp_min']:.0f}°F", font=font50, fill=COLORS['black'])
         #draw.text((345, 340), f"Humidity: {weather_data['humidity']}%", font=font30, fill=COLORS['black'])
         #draw.text((345, 400), f"Wind: {weather_data['wind']:.1f} MPH", font=font30, fill=COLORS['black'])
-        draw.text((255, 30), f"{weather_data['temp_current']}", font=font200, fill=COLORS['black'])
-        draw.text((62, 385), f"{weather_data['feels_like']}", font=font60, fill=COLORS['black'])
+        draw.text((255, 30), f"{temp_current}", font=font200, fill=COLORS['black'])
+        draw.text((72, 385), f"{feels_like}", font=font60, fill=COLORS['black'])
         # Draw bottom left box
-        draw.text((664, 48),  f"{weather_data['temp_max']}", font=font80, fill=COLORS['black'])
-        draw.text((664, 148), f"{weather_data['temp_min']}", font=font80, fill=COLORS['black'])
+        draw.text((664, 48),  f"{temp_max}", font=font80, fill=COLORS['black'])
+        draw.text((664, 148), f"{temp_min}", font=font80, fill=COLORS['black'])
 
         draw.text((627, 330), "UPDATED", font=font35, fill=COLORS['white'])
         current_time = datetime.now().strftime('%H:%M')
