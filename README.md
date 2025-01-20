@@ -101,8 +101,8 @@ Fairly extensive adjustments will have to be made for other sized screens.
 </ul>
 
 <h1>Credit</h1>
-  Original source by [James Steele Howard] (https://github.com/AbnormalDistributions/e_paper_weather_display)
-  Icon designs are originally by [Erik Flowers] (https://erikflowers.github.io/weather-icons/). Some icons have been modified.
+  Original source by [James Steele Howard](https://github.com/AbnormalDistributions/e_paper_weather_display)
+  Icon designs are originally by [Erik Flowers](https://erikflowers.github.io/weather-icons/). Some icons have been modified.
 
 <h1>Licensing</h1>
   <ul>
