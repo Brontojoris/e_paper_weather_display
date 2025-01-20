@@ -107,7 +107,7 @@ LONGITUDE = os.getenv('LONGITUDE')
 UNITS = os.getenv('UNITS')
 CSV_OPTION = os.getenv('CSV_OPTION') # if csv_option == True, a weather data will be appended to 'record.csv'
 
-BASE_URL = 'http://api.openweathermap.org/data/2.5/onecall?'
+BASE_URL = 'https://api.openweathermap.org/data/3.0/onecall?'
 URL = BASE_URL + 'lat=' + LATITUDE + '&lon=' + LONGITUDE + '&units=' + UNITS +'&appid=' + API_KEY
 
 while True:
@@ -234,7 +234,8 @@ while True:
     # Draw bottom middle box
     #draw.text((345, 340), string_humidity, font=font30, fill=black)
     #draw.text((345, 400), string_wind, font=font30, fill=black)
-	
+    # Draw timestamp
+
 	# Draw internet connection
     internet_icon = Image.open(os.path.join(icondir, internet_icon_file))
     template.paste(internet_icon, (600, 300))
