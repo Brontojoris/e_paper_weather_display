@@ -11,27 +11,23 @@ from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 import requests
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Automatically add the 'lib' directory relative to the script's location
 script_dir = os.path.dirname(os.path.abspath(__file__))
 lib_path = os.path.join(script_dir, 'lib')
-#sys.path.append(lib_path)
-#from waveshare_epd import epd7in5_V2
-#epd = epd7in5_V2.EPD()
-
-# Search lib folder for display driver modules
 sys.path.append(lib_path)
 from waveshare_epd import epd7in3g
 epd = epd7in3g.EPD()
 
-
 # User defined configuration
-API_KEY = '3cd5e3eb70925d5acb31c4dcde4259bf'
-LOCATION = 'Melbourne, AU'
-LATITUDE = '-37.8776652'
-LONGITUDE = '145.1145043'
-UNITS = 'metric'
-CSV_OPTION = True
-MEROSS = '10.0.0.100'
+API_KEY = os.getenv('API_KEY')
+LOCATION = os.getenv('LOCATION')
+LATITUDE = os.getenv('LATITUDE')
+LONGITUDE = os.getenv('LONGITUDE')
+UNITS = os.getenv('UNITS')
+CSV_OPTION = os.getenv('CSV_OPTION') # if csv_option == True, a weather data will be appended to 'record.csv'
 TRASH_DAYS = [2]  # 0 = Monday, 6 = Sunday; Multiple days can be passed as a list
 
 BASE_URL = f'https://api.openweathermap.org/data/3.0/onecall'
