@@ -62,19 +62,12 @@ logger.addHandler(console_handler)
 logger.info("Weather display script started.")
 
 # Set fonts with specific sizes to match the old behavior
-font22 =  ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 22)
-font30 =  ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 30)
-font35 =  ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 35)
-font50 =  ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 50)
-font60 =  ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 60)
-font80 =  ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 80)
-font100 = ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 100)
-font160 = ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 160)
-font180 = ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 180)
-font200 = ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 200)
-font220 = ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 220)
-font240 = ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 240)
-font260 = ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 260)
+def font(size):
+    try:
+        return ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), size)
+    except Exception as e:
+        logging.error(f"FONTERROR: {e}")
+
 COLORS = {'black': 'rgb(0,0,0)', 'white': 'rgb(255,255,255)', 'grey': 'rgb(235,235,235)'}
 
 # Fetch weather data
@@ -156,11 +149,11 @@ def generate_display_image(weather_data):
         #draw.text((35, 390), f"Low: {weather_data['temp_min']:.0f}°F", font=font50, fill=COLORS['black'])
         #draw.text((345, 340), f"Humidity: {weather_data['humidity']}%", font=font30, fill=COLORS['black'])
         #draw.text((345, 400), f"Wind: {weather_data['wind']:.1f} MPH", font=font30, fill=COLORS['black'])
-        draw.text((255, 30), f"{temp_current}", font=font200, fill=COLORS['black'])
-        draw.text((72, 385), f"{feels_like}", font=font60, fill=COLORS['black'])
+        draw.text((255, 30), f"{temp_current}", font=font(200), fill=COLORS['black'])
+        draw.text((72, 385), f"{feels_like}", font=font(60), fill=COLORS['black'])
         # Draw bottom left box
-        draw.text((664, 48),  f"{temp_max}", font=font80, fill=COLORS['black'])
-        draw.text((664, 148), f"{temp_min}", font=font80, fill=COLORS['black'])
+        draw.text((664, 48),  f"{temp_max}", font=font(80), fill=COLORS['black'])
+        draw.text((664, 148), f"{temp_min}", font=font(80), fill=COLORS['black'])
 
         draw.text((627, 330), "UPDATED", font=font35, fill=COLORS['white'])
         current_time = datetime.now().strftime('%H:%M')
