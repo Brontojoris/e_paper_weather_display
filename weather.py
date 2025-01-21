@@ -14,8 +14,6 @@ from logging.handlers import RotatingFileHandler
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 
-
-
 load_dotenv()
 
 # Automatically add the 'lib' directory relative to the script's location
@@ -42,7 +40,7 @@ ICON_DIR = os.path.join(PIC_DIR, 'icon')
 # Initialize display
 epd = epd7in3g.EPD()
 epd.init()
-epd.Clear()
+#epd.Clear()
 
 # Logging configuration for both file and console
 LOG_FILE = 'weather_display.log'
@@ -68,7 +66,18 @@ def font(size):
     except Exception as e:
         logging.error(f"FONTERROR: {e}")
 
-COLORS = {'black': 'rgb(0,0,0)', 'white': 'rgb(255,255,255)', 'grey': 'rgb(235,235,235)', 'red':'rgb(255,0,0)', 'yellow':'rgb(255,255,0)'}
+COLORS = {'black': 'rgb(0,0,0)', 'white': 'rgb(255,255,255)', 'grey': 'rgb(235,235,235)' }
+
+
+def get_suffix(day):
+    if day in [1, 21, 31]:
+        return "st"
+    elif day in [2, 22]:
+        return "nd"
+    elif day in [3, 23]:
+        return "rd"
+    else:
+        return "th"
 
 # Fetch weather data
 def fetch_weather_data():
@@ -92,7 +101,7 @@ def process_weather_data(data):
             "feels_like": current['feels_like'],
             "humidity": current['humidity'],
             "wind": current['wind_speed'],
-            "report": current['weather'][0]['description'].title(),
+            "report": daily['summary'],
             "icon_code": current['weather'][0]['icon'],
             "temp_max": daily['temp']['max'],
             "temp_min": daily['temp']['min'],
@@ -135,29 +144,58 @@ def generate_display_image(weather_data):
         icon_image = Image.open(icon_path) if os.path.exists(icon_path) else None
 
         if icon_image:
-            template.paste(icon_image, (40, 15))
+            template.paste(icon_image, (20, 30))
 
         temp_current = math.floor(weather_data['temp_current'])
         feels_like   = math.floor(weather_data['feels_like'])
         temp_max     = math.floor(weather_data['temp_max'])
         temp_min     = math.floor(weather_data['temp_min'])
-        #draw.text((30, 200), f"Now: {weather_data['report']}", font=font22, fill=COLORS['black'])
-        #draw.text((30, 240), f"Precip: {weather_data['precip_percent']:.0f}%", font=font30, fill=COLORS['black'])
-        #draw.text((375, 35), f"{weather_data['temp_current']:.0f}°F", font=font160, fill=COLORS['black'])
-        #draw.text((350, 210), f"Feels like: {weather_data['feels_like']:.0f}°F", font=font50, fill=COLORS['black'])
-        #draw.text((35, 325), f"High: {weather_data['temp_max']:.0f}°F", font=font50, fill=COLORS['black'])
-        #draw.text((35, 390), f"Low: {weather_data['temp_min']:.0f}°F", font=font50, fill=COLORS['black'])
-        #draw.text((345, 340), f"Humidity: {weather_data['humidity']}%", font=font30, fill=COLORS['black'])
-        #draw.text((345, 400), f"Wind: {weather_data['wind']:.1f} MPH", font=font30, fill=COLORS['black'])
-        draw.text((255, 30), f"{temp_current}", font=font(200), fill=COLORS['black'])
-        draw.text((72, 385), f"{feels_like}", font=font(60), fill=COLORS['black'])
-        # Draw bottom left box
-        draw.text((664, 48),  f"{temp_max}", font=font(80), fill=COLORS['black'])
-        draw.text((664, 148), f"{temp_min}", font=font(80), fill=COLORS['black'])
+        report       = weather_data['report']
 
-        draw.text((627, 330), "UPDATED", font=font(35), fill=epd.RED)
-        current_time = datetime.now().strftime('%H:%M')
-        draw.text((627, 375), current_time, font=font(60), fill=epd.YELLOW)
+        # Main Current Temp shown center, and larget
+        draw.text((235, 1), f"{temp_current}°", font=font(220), fill=COLORS['black'])
+
+        # Feels like shown inside house icon in bottom left
+        draw.text((72, 380), f"{feels_like}", font=font(60), fill=COLORS['black'])
+
+        # Daily forecasted max/min temps
+        draw.text((664, 38),  f"{temp_max}°", font=font(80), fill=COLORS['black'])
+        draw.text((664, 138), f"{temp_min}°", font=font(80), fill=COLORS['black'])
+
+        # Print weather report
+        max_line_width = 550
+        #draw.text((235, 210 ),  f"{report}", font=font(80), fill=COLORS['black'])
+
+        # Set the font and font size
+        report_font = ImageFont.truetype(os.path.join(FONT_DIR, 'Font.ttc'), 56)
+
+        # Split the text into lines
+        lines = []
+        words = report.split()
+        line = ""
+        for word in words:
+            if report_font.getsize(line + " " + word)[0] > max_line_width:
+                lines.append(line)
+                line = word
+            else:
+                if line:
+                    line += " "
+                line += word
+        lines.append(line)
+        y = 230  # adjust this value to change the starting y position
+        for line in lines:
+            draw.text((235, y), line, font=report_font, fill=COLORS['black'])  # adjust the x position as needed
+            y += report_font.getsize(line)[1] + 10  # adjust the line spacing as needed
+
+
+        # DEBUGGING AID: Draw some lines to figure out the boundaries
+        #draw.line((235, 200, 235+max_line_width, 200), fill="red", width=2)
+        #draw.line((235+max_line_width, 200, 235+max_line_width, 400), fill="red", width=2)
+
+        # Print last update data and time in bottom corner
+        date = datetime.now()
+        current_time = date.strftime("%a %d") + get_suffix(date.day) + ", " + date.strftime("%I:%M %p")
+        draw.text((500, 450), f"Last updated {current_time}", font=font(20), fill=COLORS['black'])
 
         # Trash reminder based on TRASH_DAYS config
         weekday = datetime.today().weekday()
