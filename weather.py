@@ -30,7 +30,6 @@ LATITUDE = os.getenv('LATITUDE')
 LONGITUDE = os.getenv('LONGITUDE')
 UNITS = os.getenv('UNITS')
 CSV_OPTION = os.getenv('CSV_OPTION') # if csv_option == True, a weather data will be appended to 'record.csv'
-TRASH_DAYS = [2]  # 0 = Monday, 6 = Sunday; Multiple days can be passed as a list
 
 BASE_URL = f'https://api.openweathermap.org/data/3.0/onecall'
 FONT_DIR = os.path.join(os.path.dirname(__file__), 'font')
@@ -196,12 +195,6 @@ def generate_display_image(weather_data):
         date = datetime.now()
         current_time = date.strftime("%a %d") + get_suffix(date.day) + ", " + date.strftime("%I:%M %p")
         draw.text((500, 450), f"Last updated {current_time}", font=font(20), fill=COLORS['black'])
-
-        # Trash reminder based on TRASH_DAYS config
-        weekday = datetime.today().weekday()
-        if weekday in TRASH_DAYS:
-            draw.rectangle((345, 13, 705, 55), fill=COLORS['black'])
-            draw.text((355, 15), 'TAKE OUT TRASH TODAY!', font=font30, fill=COLORS['white'])
 
         logging.info("Display image generated successfully.")
         return template
