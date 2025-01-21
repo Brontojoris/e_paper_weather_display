@@ -76,6 +76,13 @@
     </ul>
   <h2>Version 2.1</h2>
   <p>Incorporated changes from <a href="https://github.com/AbnormalDistributions/e_paper_weather_display/releases/tag/2.0">version 2.0 improvements</a> from <a href="https://github.com/AbnormalDistributions/">AbnormalDistributions</a>.
+  <h2>Version 2.2</h2>
+  <ul>
+      <li>Update to use my preferred layout</li>
+      <li>Update to use my yellow colour for icons with sun</li>
+      <li>Add daily weather summary</li>
+      <li>Print last modified date</li>
+  </ul>
 
 
 <h1>Setup</h1>
