@@ -68,7 +68,7 @@ def font(size):
     except Exception as e:
         logging.error(f"FONTERROR: {e}")
 
-COLORS = {'black': 'rgb(0,0,0)', 'white': 'rgb(255,255,255)', 'grey': 'rgb(235,235,235)'}
+COLORS = {'black': 'rgb(0,0,0)', 'white': 'rgb(255,255,255)', 'grey': 'rgb(235,235,235)', 'red':'rgb(255,0,0)', 'yellow':'rgb(255,255,0)'}
 
 # Fetch weather data
 def fetch_weather_data():
@@ -155,9 +155,9 @@ def generate_display_image(weather_data):
         draw.text((664, 48),  f"{temp_max}", font=font(80), fill=COLORS['black'])
         draw.text((664, 148), f"{temp_min}", font=font(80), fill=COLORS['black'])
 
-        draw.text((627, 330), "UPDATED", font=font35, fill=COLORS['white'])
+        draw.text((627, 330), "UPDATED", font=font(35), fill=epd.RED)
         current_time = datetime.now().strftime('%H:%M')
-        draw.text((627, 375), current_time, font=font60, fill=COLORS['white'])
+        draw.text((627, 375), current_time, font=font(60), fill=epd.YELLOW)
 
         # Trash reminder based on TRASH_DAYS config
         weekday = datetime.today().weekday()
@@ -174,7 +174,7 @@ def generate_display_image(weather_data):
 # Display image on screen
 def display_image(image):
     try:
-        h_image = Image.new('1', (epd.width, epd.height), 255)
+        h_image = Image.new('RGB', (epd.width, epd.height), epd.WHITE)
         h_image.paste(image, (0, 0))
         h_image.save('display_image.bmp')  # Save the image to a file
         epd.display(epd.getbuffer(h_image))
